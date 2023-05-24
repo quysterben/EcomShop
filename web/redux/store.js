@@ -27,7 +27,7 @@ const persistor = persistStore(store);
 const DataProvider = ({ children }) => {
     return (
         <Provider store={store}>
-            <PersistGate loading={Home} persistor={persistor}>
+            <PersistGate loading={Home()} persistor={persistor}>
                 {children}
             </PersistGate>
         </Provider>
