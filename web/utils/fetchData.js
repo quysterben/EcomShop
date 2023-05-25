@@ -11,21 +11,21 @@ export const getDataAPI = async (url, token) => {
 };
 
 export const postDataAPI = async (url, data, token) => {
-    const res = await axios.post(`${BASEURL}/api/${VERSION}/${url}`, data, {
+    const res = await axios.post(`${BASEURL}/api/${VERSION}/${url}`, data.data, {
         headers: { Authorization: `Bearer ${token}` },
     });
     return res.data;
 };
 
 export const putDataAPI = async (url, data, token) => {
-    const res = await axios.put(`${BASEURL}/api/${VERSION}/${url}`, data, {
+    const res = await axios.put(`${BASEURL}/api/${VERSION}/${url}`, data.data, {
         headers: { Authorization: `Bearer ${token}` },
     });
     return res.data;
 };
 
 export const patchDataAPI = async (url, data, token) => {
-    const res = await axios.patch(`${BASEURL}/api/${VERSION}/${url}`, data, {
+    const res = await axios.patch(`${BASEURL}/api/${VERSION}/${url}`, data.data, {
         headers: { Authorization: `Bearer ${token}` },
     });
     return res.data;

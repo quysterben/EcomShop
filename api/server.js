@@ -4,7 +4,6 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const upload = multer();
-const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 

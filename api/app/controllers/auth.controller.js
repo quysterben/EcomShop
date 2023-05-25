@@ -19,19 +19,12 @@ const authController = {
         const password = req.body.password;
 
         try {
-            const user = await db.User.findOne({ email: email })
-                .then((user) => {
-                    if (user) {
-                        const err = new Error('Email is already exists!');
-                        err.statusCode = 401;
-                        throw err;
-                    }
-                })
-                .catch((err) => {
-                    if (err) {
-                        next(err);
-                    }
-                });
+            const user = await db.User.findOne({ email: email });
+            if (user) {
+                const err = new Error('Email is already exists!');
+                err.statusCode = 401;
+                throw err;
+            }
 
             const hashedPw = await bcryptjs.hash(password, 12);
             const newUser = {
@@ -45,7 +38,7 @@ const authController = {
             if (!err.statusCode) {
                 err.statusCode = 500;
             }
-            next(err);
+            return next(err);
         }
     },
     signin: async (req, res, next) => {

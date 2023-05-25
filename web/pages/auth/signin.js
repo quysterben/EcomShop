@@ -6,19 +6,69 @@ import { BsFacebook } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import Link from 'next/link';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+
+import { login } from '~/redux/actions/authAction';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
+import { reset } from '~/redux/actions/alertAction';
+
 const signin = () => {
+    const { auth } = useSelector((state) => state);
+    const dispatch = useDispatch();
+    const route = useRouter();
+
+    useEffect(() => {
+        dispatch(reset({}));
+        const loggedIn = localStorage.getItem('loggedIn');
+        if (loggedIn === 'true') {
+            route.push('/');
+        }
+    }, [auth.token]);
+
+    const emailData = useRef('');
+    const passwordData = useRef('');
+
+    const onFinish = () => {
+        const data = {
+            email: emailData.current.input.value,
+            password: passwordData.current.input.value,
+        };
+        dispatch(login({ data }));
+    };
+
+    const onFinishFailed = () => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Invalid data!',
+        });
+    };
+
     return (
         <div className="w-screen h-screen bg-aspagarus flex justify-center items-center">
             <div className="w-[520px] h-[600px] bg-white rounded-md drop-shadow-2xl ">
                 <h2 className="mx-auto w-fit my-16 text-4xl">Login Account</h2>
-                <Form className="w-[400px] mx-auto" name="login" autoComplete="off">
-                    <Form.Item rules={[{ required: true, message: 'Please input your username!' }]}>
-                        <Input size="large" prefix={<AiOutlineMail />} placeholder="Email" />
+                <Form
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    className="w-[400px] mx-auto"
+                    name="login"
+                    autoComplete="off"
+                >
+                    <Form.Item name="email" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Input ref={emailData} size="large" prefix={<AiOutlineMail />} placeholder="Email" />
                     </Form.Item>
-                    <Form.Item rules={[{ required: true, message: 'Please input your username!' }]}>
-                        <Input.Password size="large" prefix={<RiLockPasswordFill />} placeholder="Password" />
+                    <Form.Item name="password" rules={[{ required: true, message: 'Please input your username!' }]}>
+                        <Input.Password
+                            ref={passwordData}
+                            size="large"
+                            prefix={<RiLockPasswordFill />}
+                            placeholder="Password"
+                        />
                     </Form.Item>
-                    <Form.Item name="remember" valuePropName="checked">
+                    <Form.Item>
                         <Checkbox className="mr-40">Save Password</Checkbox>
                         <Link href="/auth/reset-password">Forgot password?</Link>
                     </Form.Item>
