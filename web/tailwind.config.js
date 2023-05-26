@@ -32,7 +32,7 @@ module.exports = {
             black: '#2E3A44',
             light: '#F9FBFC',
             white: '#FFFF',
-            blue: '#00FFFF',
+            blue: '#096dd9',
         },
     },
     plugins: [],

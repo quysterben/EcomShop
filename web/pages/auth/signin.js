@@ -23,7 +23,7 @@ const signin = () => {
         dispatch(reset({}));
         const loggedIn = localStorage.getItem('loggedIn');
         if (loggedIn === 'true') {
-            route.push('/');
+            route.push('/home');
         }
     }, [auth.token]);
 

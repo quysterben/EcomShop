@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 
 export const login = (data) => async (dispatch) => {
     try {
-        console.log('in');
         const res = await postDataAPI('auth/signin', data);
         localStorage.setItem('loggedIn', true);
         dispatch({
@@ -64,16 +63,36 @@ export const register = (data) => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-    const res = await postDataAPI('/auth/logout/');
-    localStorage.setItem('loggedIn', false);
-    dispatch({
-        type: AUTH,
-        payload: {
-            token: null,
-            user: null,
-        },
-    });
-    location.replace('/');
+    try {
+        console.log('in');
+        const res = await postDataAPI('/auth/logout/', {});
+        localStorage.setItem('loggedIn', false);
+        dispatch({
+            type: AUTH,
+            payload: {
+                token: null,
+                user: null,
+            },
+        });
+        Swal.fire({
+            didDestroy: false,
+            icon: 'success',
+            title: 'Success!',
+            text: 'Logout successfully!',
+        });
+    } catch (err) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed!',
+            text: 'Error',
+        });
+        dispatch({
+            type: ALERT,
+            payload: {
+                err: 'logged out',
+            },
+        });
+    }
 };
 
 export const refreshToken = () => async (dispatch) => {

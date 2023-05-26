@@ -10,7 +10,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import Home from '~/pages';
+import Loading from '~/pages';
 
 const persistConfig = {
     key: 'root',
@@ -27,7 +27,7 @@ const persistor = persistStore(store);
 const DataProvider = ({ children }) => {
     return (
         <Provider store={store}>
-            <PersistGate loading={Home()} persistor={persistor}>
+            <PersistGate loading={Loading()} persistor={persistor}>
                 {children}
             </PersistGate>
         </Provider>

@@ -1,19 +1,12 @@
-import { Button } from 'antd';
-
-const Home = () => {
+const Loading = () => {
     return (
         <div>
-            <h1 className="text-3xl font-bold underline">Hello world!</h1>
-
-            <Button size="large" type="primary">
-                Button
-            </Button>
-
-            <Button size="large" type="primary" className="bg-primary border-primary">
-                Button
-            </Button>
+            <div id="loading-wrapper">
+                <div id="loading-text">LOADING</div>
+                <div id="loading-content"></div>
+            </div>
         </div>
     );
 };
 
-export default Home;
+export default Loading;
