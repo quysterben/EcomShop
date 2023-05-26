@@ -30,7 +30,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="h-[64px] bg-white grid grid-cols-8 drop-shadow-md">
+        <div className="h-[64px] bg-white grid grid-cols-8 drop-shadow-md fixed w-full">
             <div className="col-span-1 flex justify-center cursor-pointer">
                 <Image className="mx-auto" src="/logo.png" width={64} height={64} />
             </div>
