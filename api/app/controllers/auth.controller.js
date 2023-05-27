@@ -33,6 +33,16 @@ const authController = {
                 password: hashedPw,
             };
             const result = await db.User.create(newUser);
+
+            const newCart = {
+                user_id: result._id,
+                items: [],
+                quantities: [],
+                total_quantity: 0,
+                total: 0,
+            };
+            const cart = await db.Cart.create(newCart);
+
             return res.status(201).json({ success: true, message: 'User created!', result: result });
         } catch (err) {
             if (!err.statusCode) {
