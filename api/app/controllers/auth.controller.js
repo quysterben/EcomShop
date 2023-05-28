@@ -36,7 +36,7 @@ const authController = {
 
             const newCart = {
                 user_id: result._id,
-                items: [],
+                products: [],
                 quantities: [],
                 total_quantity: 0,
                 total: 0,

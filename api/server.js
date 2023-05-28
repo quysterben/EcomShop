@@ -3,9 +3,10 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
-const upload = multer();
+// const upload = multer();
 const dotenv = require('dotenv');
 dotenv.config({ path: path.resolve(__dirname, '.env') });
+const helmet = require('helmet');
 
 const cookieParser = require('cookie-parser');
 
@@ -14,12 +15,34 @@ const db = require('./app/models');
 const app = express();
 
 app.use(express.json());
+app.use(helmet());
 
 app.use(cors());
 
-app.use(upload.array());
+// app.use(upload.array());
 app.use(express.static('public'));
 app.use(cookieParser());
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'res/images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('image'));
+
+app.use('/res/images', express.static(path.join(__dirname, 'res', 'images')));
 
 // simple route
 app.get('/', (req, res) => {
@@ -31,6 +54,7 @@ app.use('/api/v1', serverRoute);
 
 // handle error request
 app.use((err, req, res, next) => {
+    console.log(err);
     const status = err.statusCode || 500;
     const message = err.message;
     const data = err.data;

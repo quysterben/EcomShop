@@ -5,7 +5,7 @@ const Payment = mongoose.model(
     new mongoose.Schema(
         {
             user_id: String,
-            items: Array,
+            products: Array,
             quantity: Number,
             total: Number,
         },

@@ -5,9 +5,8 @@ const Cart = mongoose.model(
     new mongoose.Schema(
         {
             user_id: String,
-            items: Array,
+            products: Array,
             quantities: Array,
-            total_quantity: Number,
             total: Number,
         },
         { timestamps: true },
