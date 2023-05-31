@@ -1,4 +1,7 @@
+const { validationResult } = require('express-validator');
+
 const db = require('../models/index');
+const { findById } = require('../models/user.model');
 
 const productController = {
     createNewProduct: async (req, res, next) => {
@@ -15,6 +18,7 @@ const productController = {
         const description = req.body.description;
         const quantity = req.body.quantity;
         const price = req.body.price;
+        const imageURLs = req.body.imageURLs;
 
         try {
             const newProduct = {
@@ -23,9 +27,10 @@ const productController = {
                 description: description,
                 quantity: quantity,
                 price: price,
+                imageURLs: imageURLs,
             };
 
-            const result = db.Product.create(newProduct);
+            const result = await db.Product.create(newProduct);
             return res.status(200).json({
                 success: true,
                 message: 'Create new product success!',
@@ -40,7 +45,7 @@ const productController = {
     },
     getAllProducts: async (req, res, next) => {
         try {
-            const data = db.Product.find({});
+            const data = await db.Product.find({});
             return res.status(200).json({
                 success: true,
                 message: 'Get all products success!',
@@ -75,7 +80,49 @@ const productController = {
             return next(err);
         }
     },
-    updateProduct: async (req, res, next) => {},
+    updateProduct: async (req, res, next) => {
+        const productId = req.params.productId;
+
+        const product_name = req.body.product_name;
+        const description = req.body.description;
+        const quantity = req.body.quantity;
+        const price = req.body.price;
+        const imageURLs = req.body.imageURLs;
+
+        try {
+            const product = await db.Product.findById(productId);
+            if (!product) {
+                const err = new Error('No product found!');
+                err.statusCode = 404;
+                throw err;
+            } else if (req.userId !== product.vendor_id) {
+                const err = new Error('This is not your product!');
+                err.statusCode = 404;
+                throw err;
+            }
+
+            const newProduct = {
+                product_name: product_name,
+                description: description,
+                quantity: quantity,
+                price: price,
+                imageURLs: imageURLs,
+            };
+
+            const updatedProduct = await db.Product.findByIdAndUpdate(productId, newProduct, { new: true });
+
+            return res.status(200).json({
+                success: true,
+                message: 'Update product success!',
+                updatedProduct: updatedProduct,
+            });
+        } catch (err) {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            return next(err);
+        }
+    },
     addProductToCart: async (req, res, next) => {},
 };
 

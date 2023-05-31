@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { UserOutlined } from '@ant-design/icons';
+import { FcAddDatabase } from 'react-icons/fc';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -56,9 +57,19 @@ const Navbar = () => {
             ) : (
                 <>
                     <div className="col-span-1 flex items-center justify-center">
-                        <Badge className="cursor-pointer mt-2" count={0} showZero color="#A63D40">
-                            <AiOutlineShoppingCart size="30px" />
-                        </Badge>
+                        {auth.user.role === 1 ? (
+                            <Badge className="cursor-pointer mt-2" count={0} showZero color="#A63D40">
+                                <AiOutlineShoppingCart size="30px" />
+                            </Badge>
+                        ) : (
+                            <FcAddDatabase
+                                onClick={() => {
+                                    route.push('/vendor/addProduct');
+                                }}
+                                className="cursor-pointer"
+                                size="30px"
+                            />
+                        )}
                     </div>
                     <div className="col-span-1 flex items-center justify-center">
                         <Popover
