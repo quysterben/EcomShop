@@ -97,7 +97,7 @@ const productController = {
                 throw err;
             } else if (req.userId !== product.vendor_id) {
                 const err = new Error('This is not your product!');
-                err.statusCode = 404;
+                err.statusCode = 400;
                 throw err;
             }
 

@@ -30,7 +30,7 @@ module.exports = {
             dark: '#2E3A44',
             info: '#1CA7EC',
             black: '#2E3A44',
-            light: '#E8E8E8',
+            light: '#CACACA',
             white: '#FFFF',
             blue: '#096dd9',
         },

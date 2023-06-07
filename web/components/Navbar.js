@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import { Input, Badge, Avatar, Popover, Button } from 'antd';
+import { Badge, Avatar, Popover, Button } from 'antd';
 import Link from 'next/link';
 
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { UserOutlined } from '@ant-design/icons';
-import { FcAddDatabase } from 'react-icons/fc';
+import { FaClipboardList } from 'react-icons/fa';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -31,44 +31,69 @@ const Navbar = () => {
     };
 
     return (
-        <div className="h-[64px] bg-white grid grid-cols-8 drop-shadow-md fixed w-full">
-            <div className="col-span-1 flex justify-center cursor-pointer">
-                <Image className="mx-auto" src="/logo.png" width={64} height={64} />
+        <div className="h-[64px] bg-white grid border-b-4 grid-cols-8 fixed w-full drop-shadow-md top-0 z-10">
+            <div onClick={() => route.push('/home')} className="col-span-1 flex justify-end cursor-pointer">
+                <Image src="/logo.jpg" width={(64 / 5) * 8} height={64} />
             </div>
-            <div className="col-span-1 flex items-center cursor-pointer">
-                <h2 className="text-primary mt-4">Ecom Shop</h2>
+            <div onClick={() => route.push('/home')} className="col-span-1 flex items-center cursor-pointer">
+                <h2 className="text-primary mt-2 font-bold">Ecom Shop</h2>
             </div>
             <div className="col-span-4 flex items-center justify-center">
-                <Input.Search className="mx-14" placeholder="Input search text" allowClear />
+                <ul className="list-none">
+                    <li
+                        onClick={() => route.push('/home')}
+                        className="inline-block mx-8 text-base cursor-pointer font-semibold text-light hover:text-primary"
+                    >
+                        Home
+                    </li>
+
+                    <li
+                        onClick={() => route.push('/home')}
+                        className="inline-block mx-8 text-base cursor-pointer font-semibold text-light hover:text-primary"
+                    >
+                        Contact
+                    </li>
+                    <li
+                        onClick={() => route.push('/home')}
+                        className="inline-block mx-8 text-base cursor-pointer font-semibold text-light hover:text-primary"
+                    >
+                        About us
+                    </li>
+                </ul>
             </div>
             {!checkLoggedIn ? (
                 <>
                     <div className="col-span-1 flex items-center justify-end">
-                        <Button onClick={() => route.push('/auth/signin')} type="primary">
+                        <Button className="px-10 rounded-3xl" onClick={() => route.push('/auth/signin')} type="primary">
                             Sign In
                         </Button>
                     </div>
                     <div className="col-span-1 flex items-center justify-center">
-                        <Button onClick={() => route.push('/auth/signup')} type="secondary">
+                        <Button
+                            className="px-10 rounded-3xl"
+                            onClick={() => route.push('/auth/signup')}
+                            type="secondary"
+                        >
                             Sign Up
                         </Button>
                     </div>
                 </>
             ) : (
                 <>
-                    <div className="col-span-1 flex items-center justify-center">
+                    <div className="col-span-1 flex items-center justify-end">
                         {auth.user.role === 1 ? (
-                            <Badge className="cursor-pointer mt-2" count={0} showZero color="#A63D40">
-                                <AiOutlineShoppingCart size="30px" />
+                            <Badge className="cursor-pointer mt-3" count={0} showZero color="#90A959">
+                                <AiOutlineShoppingCart size="28px" />
                             </Badge>
                         ) : (
-                            <FcAddDatabase
-                                onClick={() => {
-                                    route.push('/vendor/addProduct');
-                                }}
-                                className="cursor-pointer"
-                                size="30px"
-                            />
+                            <Button
+                                size="small"
+                                className="px-4"
+                                onClick={() => route.push('/vendor/dashboard')}
+                                type="primary"
+                            >
+                                Dashboard
+                            </Button>
                         )}
                     </div>
                     <div className="col-span-1 flex items-center justify-center">

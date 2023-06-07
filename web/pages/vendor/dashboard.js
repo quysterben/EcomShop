@@ -1,6 +1,6 @@
 import Navbar from '~/components/Navbar';
 
-const addProduct = () => {
+const dashboard = () => {
     return (
         <div>
             <Navbar />
@@ -8,4 +8,4 @@ const addProduct = () => {
     );
 };
 
-export default addProduct;
+export default dashboard;
